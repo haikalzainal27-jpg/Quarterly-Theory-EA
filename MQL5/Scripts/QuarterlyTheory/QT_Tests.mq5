@@ -68,6 +68,8 @@ void Test_Time()
    QT_AssertEqTime(D'2026.06.10 11:58', QT_ForceCloseTimeNY(fc, 2), "force close NY AM");
    fc = QT_GetCyclePos(D'2026.06.10 15:00', MODEL_SESSION_90M);
    QT_AssertEqTime(D'2026.06.10 16:58', QT_ForceCloseTimeNY(fc, 2), "force close NY PM before break");
+   fc = QT_GetCyclePos(D'2026.06.10 10:00', MODEL_SESSION_90M);
+   QT_AssertEqTime(D'2026.06.10 16:58', QT_ForceCloseTimeNY(fc, 2, false), "no frame close -> only daily break");
 
    p = QT_GetCyclePos(D'2026.06.10 09:30', MODEL_CYCLE_MICRO);
    QT_AssertEqTime(D'2026.06.10 09:00', p.frameStartNY, "micro frameStart");
@@ -239,6 +241,8 @@ void Test_Signal()
    QT_AssertEqInt(DIR_BUY, s.dir, "signal buy");
    QT_AssertEqDbl(94.9, s.sl, 1e-9, "signal sl");
    QT_AssertEqDbl(s.entry - s.sl, s.tp - s.entry, 1e-9, "rr 1:1");
+   QT_BuildSignal(in, m1, 0.1, s, 2.0);
+   QT_AssertEqDbl(2.0*(s.entry - s.sl), s.tp - s.entry, 1e-9, "rr 1:2");
 
    BuildSignalCase(in, m1, 12);
    in.pos = QT_GetCyclePos(D'2026.06.10 08:00', MODEL_SESSION_90M); // Q2

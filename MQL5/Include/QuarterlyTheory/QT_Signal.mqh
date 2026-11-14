@@ -37,7 +37,8 @@ void QT_SignalReset(QTSignal &s)
   }
 
 // m1: CLOSED main-symbol M1 bars, oldest -> newest, covering at least Q2..now.
-void QT_BuildSignal(const QTSignalInput &in, const MqlRates &m1[], double slBufferPrice, QTSignal &s)
+void QT_BuildSignal(const QTSignalInput &in, const MqlRates &m1[], double slBufferPrice, QTSignal &s,
+                    double rewardMult=1.0)
   {
    QT_SignalReset(s);
 
@@ -85,7 +86,7 @@ void QT_BuildSignal(const QTSignalInput &in, const MqlRates &m1[], double slBuff
         }
      }
 
-   // 5) SL beyond sweep, TP = 1:1
+   // 5) SL beyond sweep, TP = rewardMult x SL distance (1.0 = 1:1)
    double sl = (dir == DIR_BUY) ? sweep - slBufferPrice : sweep + slBufferPrice;
    double dist = MathAbs(entry - sl);
    if(dist <= 0.0) { s.reason = "zero_sl"; return; }
@@ -93,7 +94,8 @@ void QT_BuildSignal(const QTSignalInput &in, const MqlRates &m1[], double slBuff
    s.dir   = dir;
    s.entry = entry;
    s.sl    = sl;
-   s.tp    = (dir == DIR_BUY) ? entry + dist : entry - dist;
+   if(rewardMult <= 0) rewardMult = 1.0;
+   s.tp    = (dir == DIR_BUY) ? entry + dist*rewardMult : entry - dist*rewardMult;
    s.reason = "ok";
   }
 

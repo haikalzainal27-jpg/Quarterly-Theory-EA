@@ -27,6 +27,7 @@ input string       InpPairSymbol        = "XAGUSD.s";         // Simbol pasangan
 
 input group "Risiko"
 input double       InpRiskUSD           = 10.0;             // Risiko setiap trade (USD)
+input double       InpRewardMult        = 1.0;              // TP = N x jarak SL (1 = 1:1, 2 = 1:2)
 input double       InpDailyLossUSD      = 30.0;             // Had rugi harian (USD)
 input int          InpMaxTradesPerDay   = 3;
 input int          InpMaxTradesPerCycle = 1;
@@ -49,6 +50,7 @@ input bool         InpTradeNYPM         = true;
 
 input group "Lain-lain"
 input long         InpMagic             = 20261114;
+input bool         InpCloseAtFrameEnd   = true;             // Tutup paksa pada akhir Q4 (false = biar ke SL/TP, tutup sebelum 17:00 NY)
 input int          InpCloseBufferMin    = 2;                // Tutup paksa N minit sebelum akhir Q4 / 17:00 NY
 input int          InpDeviationPoints   = 20;               // Slippage maksimum
 
@@ -119,8 +121,8 @@ void OnTick()
 
    // Forced close: before end of Q4 (or 17:00 NY daily break), and anything
    // left over from an earlier frame.
-   QT_CloseOlderThan(_Symbol, InpMagic, frameStartS);
-   if(nyNow >= QT_ForceCloseTimeNY(p, InpCloseBufferMin))
+   if(InpCloseAtFrameEnd) QT_CloseOlderThan(_Symbol, InpMagic, frameStartS);
+   if(nyNow >= QT_ForceCloseTimeNY(p, InpCloseBufferMin, InpCloseAtFrameEnd))
      {
       QT_CloseAll(_Symbol, InpMagic);
       return;
@@ -188,7 +190,7 @@ void OnTick()
    double buffer = (InpSLBufferPoints > 0) ? InpSLBufferPoints * _Point : spreadPrice;
 
    QTSignal s;
-   QT_BuildSignal(in, mainM1, buffer, s);
+   QT_BuildSignal(in, mainM1, buffer, s, InpRewardMult);
    if(s.dir == DIR_NONE) { LogOnce(p, s.reason); return; }
 
    // Lot & scalping filters

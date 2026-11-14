@@ -90,11 +90,12 @@ QTCyclePos QT_GetCyclePos(datetime ny, QTModelLevel level)
 // NY time at which open positions of this frame must be closed:
 // end of frame Q4, but never later than 17:00 NY (daily market break),
 // minus a safety buffer in minutes.
-datetime QT_ForceCloseTimeNY(const QTCyclePos &p, int bufferMin)
+// atFrameEnd=false: only the daily-break limit applies (trade runs to SL/TP).
+datetime QT_ForceCloseTimeNY(const QTCyclePos &p, int bufferMin, bool atFrameEnd=true)
   {
    datetime frameEnd = p.frameStartNY + 4*p.frameQuarterSec;
    datetime dayBreak = p.tradingDayStartNY + 23*3600; // 17:00 NY
-   datetime end = (frameEnd < dayBreak) ? frameEnd : dayBreak;
+   datetime end = (atFrameEnd && frameEnd < dayBreak) ? frameEnd : dayBreak;
    return end - bufferMin*60;
   }
 
