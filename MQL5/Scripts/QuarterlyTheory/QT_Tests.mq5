@@ -12,6 +12,7 @@
 #include <QuarterlyTheory/QT_Risk.mqh>
 #include <QuarterlyTheory/QT_Signal.mqh>
 #include <QuarterlyTheory/QT_Report.mqh>
+#include <QuarterlyTheory/QT_BB.mqh>
 
 //--- helpers -------------------------------------------------------
 void SetBar(MqlRates &r[], int i, datetime t, double o, double h, double l, double c)
@@ -285,6 +286,37 @@ void Test_Report()
    QT_AssertEqInt(2, st[QT_LONDON].losses, "london losses");
   }
 
+//--- Bollinger Bands -----------------------------------------------
+void FillBB(double &c[], double v20, double v21)
+  {
+   ArrayResize(c, 22);
+   for(int i=0; i<20; i++) c[i] = (i % 2 == 0) ? 100.0 : 102.0;
+   c[20] = v20; c[21] = v21;
+  }
+
+void Test_BB()
+  {
+   double a[]; ArrayResize(a, 20);
+   for(int i=0; i<20; i++) a[i] = i + 1;
+   double m, u, l;
+   QT_AssertTrue(QT_BBCalc(a, 19, 20, 2.0, m, u, l), "bb calc ok");
+   QT_AssertEqDbl(10.5, m, 1e-9, "bb mid");
+   QT_AssertEqDbl(22.0326, u, 1e-3, "bb upper");
+   QT_AssertEqDbl(-1.0326, l, 1e-3, "bb lower");
+
+   double c[];
+   FillBB(c, 95, 99);
+   QT_AssertEqInt(DIR_BUY, QT_BBReentrySignal(c, 20, 2.0), "bb re-entry buy");
+   FillBB(c, 107, 103);
+   QT_AssertEqInt(DIR_SELL, QT_BBReentrySignal(c, 20, 2.0), "bb re-entry sell");
+   FillBB(c, 101, 101);
+   QT_AssertEqInt(DIR_NONE, QT_BBReentrySignal(c, 20, 2.0), "bb no signal");
+   FillBB(c, 95, 94);
+   QT_AssertEqInt(DIR_NONE, QT_BBReentrySignal(c, 20, 2.0), "bb still outside -> none");
+
+   QT_AssertEqDbl(5.0, QT_FixedRiskDistance(5, 0.01, 1.0, 0.01), 1e-9, "gold 0.01 lot $5 -> 5.00");
+  }
+
 void OnStart()
   {
    Test_Harness();
@@ -296,5 +328,6 @@ void OnStart()
    Test_Risk();
    Test_Signal();
    Test_Report();
+   Test_BB();
    QT_TestSummary();
   }

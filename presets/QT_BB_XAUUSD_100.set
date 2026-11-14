@@ -1,0 +1,22 @@
+; QT + Bollinger Bands scalper - XAUUSD.s, akaun $100, risiko $5 / reward $5 (1:1)
+InpTimeMode=0
+InpServerGmtOffset=2
+InpBBTimeframe=5
+InpBBPeriod=20
+InpBBDeviation=2.0
+InpUseTO=true
+InpMinTOVotes=2
+InpFixedLot=0.01
+InpRiskUSD=5.0
+InpRewardMult=1.0
+InpDailyLossUSD=15.0
+InpMaxTradesPerDay=5
+InpMaxTradesPerCycle=1
+InpMaxSpreadPoints=50
+InpTradeAsia=true
+InpTradeLondon=true
+InpTradeNYAM=true
+InpTradeNYPM=true
+InpMagic=20261116
+InpCloseBufferMin=2
+InpDeviationPoints=20

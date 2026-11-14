@@ -34,3 +34,9 @@ Logik EA disahkan (baris `detail` disemak manual: masa NY, SSMT, True Open betul
 | 2 | US100.s | 0 | — | $0 | — | **Tidak sah** — 0 trade; punca perlu disiasat (log Agent) |
 
 Ujian 1 ikut sesi: NY AM 11 trade (3 TP / 8 SL) −$18.47; NY PM 15 trade (2 TP / 6 SL / 7 masa) +$6.34 (untung datang dari tutup ikut masa, bukan TP); Asia 2 trade +$8.77.
+
+## Strategi kedua: QT + Bollinger Bands (`QT_BB_EA.mq5`) — belum diuji
+- Isyarat: bar M5 tutup di luar Bollinger Band (20, 2.0), bar seterusnya tutup semula di dalam → masuk melawan arah (mean reversion).
+- Penapis Quarterly Theory: buy hanya di bawah ≥ 2 True Open, sell hanya di atas ≥ 2 True Open.
+- Lot tetap 0.01, SL = $5.00 dari entry, TP = $5.00 (1:1). Maks 1 trade setiap kitaran 90 minit, 5 sehari, had rugi harian $15.
+- Preset: `presets/QT_BB_XAUUSD_100.set`. Protokol sama: bangunkan atas 2025, 2026 sebagai ujian akhir.
