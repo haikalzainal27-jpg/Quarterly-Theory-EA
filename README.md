@@ -13,6 +13,8 @@ EA scalping MetaTrader 5 berasaskan Quarterly Theory: AMDX kitaran 90 minit, 3 T
 Kedua-duanya berlesen MIT; lihat `third_party/`.
 
 ## Mula
+**Pemula:** ikut `docs/PANDUAN-PEMULA.md` langkah demi langkah.
+
 Lihat `docs/BACKTEST.md` untuk cara pasang, jalankan ujian unit, dan backtest.
 
 ## Struktur
