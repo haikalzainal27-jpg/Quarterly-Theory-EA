@@ -54,6 +54,7 @@ input int          InpDeviationPoints   = 20;               // Slippage maksimum
 datetime g_lastBar     = 0;
 datetime g_startServer = 0;
 datetime g_logFrame    = 0;
+datetime g_detailFrame = 0;
 string   g_lastReason  = "";
 
 datetime NY2S(datetime ny) { return QT_NYToServer(ny, InpTimeMode, InpServerGmtOffset); }
@@ -90,6 +91,11 @@ int OnInit()
       Print("QT: amaran - mata wang akaun bukan USD, risiko dikira dalam mata wang akaun");
    g_startServer = TimeCurrent();
    g_qtTrade.SetExpertMagicNumber(InpMagic);
+   // Warm up pair history so the tester loads it (multi-symbol data).
+   MqlRates warm[];
+   int got = CopyRates(InpPairSymbol, PERIOD_M1, 0, 500, warm);
+   PrintFormat("QT init: symbol=%s pair=%s pairBars=%d digits=%d point=%g timeMode=%d",
+               _Symbol, InpPairSymbol, got, _Digits, _Point, (int)InpTimeMode);
    g_qtTrade.SetTypeFillingBySymbol(_Symbol);
    g_qtTrade.SetDeviationInPoints(InpDeviationPoints);
    return INIT_SUCCEEDED;
@@ -137,8 +143,10 @@ void OnTick()
    datetime q2S  = NY2S(p.frameStartNY + q);
    datetime q3S  = NY2S(p.frameStartNY + 2*q);
    MqlRates mainM1[], pairM1[];
-   if(!QT_LoadM1(_Symbol, frameStartS, barTime - 1, mainM1)) return;
-   if(InpUseSSMT && !QT_LoadM1(InpPairSymbol, frameStartS, barTime - 1, pairM1)) return;
+   if(!QT_LoadM1(_Symbol, frameStartS, barTime - 1, mainM1))
+     { LogOnce(p, StringFormat("data_fail %s err=%d", _Symbol, GetLastError())); return; }
+   if(InpUseSSMT && !QT_LoadM1(InpPairSymbol, frameStartS, barTime - 1, pairM1))
+     { LogOnce(p, StringFormat("data_fail %s err=%d", InpPairSymbol, GetLastError())); return; }
 
    QTSignalInput in;
    ZeroMemory(in);
@@ -160,6 +168,18 @@ void OnTick()
 
    MqlTick tick;
    if(!SymbolInfoTick(_Symbol, tick)) return;
+
+   // One detail line per frame at the start of Q3 (diagnostics)
+   if(p.frameStartNY != g_detailFrame)
+     {
+      g_detailFrame = p.frameStartNY;
+      PrintFormat("QT %s %s detail: NY=%s mainBars=%d pairBars=%d | main Q1 %.2f-%.2f Q2 %.2f-%.2f | pair Q1 %.3f-%.3f Q2 %.3f-%.3f | TO d=%.2f s=%.2f c=%.2f | spreadPts=%.0f",
+                  _Symbol, QT_SessionName(p.session), TimeToString(nyNow, TIME_DATE|TIME_MINUTES),
+                  ArraySize(mainM1), ArraySize(pairM1),
+                  in.mainQ1.low, in.mainQ1.high, in.mainQ2.low, in.mainQ2.high,
+                  in.pairQ1.low, in.pairQ1.high, in.pairQ2.low, in.pairQ2.high,
+                  in.toDaily, in.toSession, in.toCycle, (tick.ask - tick.bid) / _Point);
+     }
    in.bid = tick.bid; in.ask = tick.ask;
    in.useSSMT = InpUseSSMT; in.useTO = InpUseTO; in.useMSS = InpUseMSS;
 
