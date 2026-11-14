@@ -34,7 +34,7 @@ Panduan ini untuk komputer **Windows**. Ikut langkah satu demi satu. Jangan lang
    | `MQL5\Experts\QuarterlyTheory` | `MQL5\Experts\` |
    | `MQL5\Include\QuarterlyTheory` | `MQL5\Include\` |
    | `MQL5\Scripts\QuarterlyTheory` | `MQL5\Scripts\` |
-   | fail dalam `presets\` (`QT_XAUUSD.set`, `QT_NDXUSD.set`) | `MQL5\Profiles\Tester\` |
+   | fail dalam `presets\` (`QT_XAUUSD.set`, `QT_US100.set`) | `MQL5\Profiles\Tester\` |
 
    Tip: salin **folder** `QuarterlyTheory`, bukan fail di dalamnya satu per satu.
 
@@ -82,8 +82,8 @@ Ujian ini memastikan logik EA (masa NY, True Open, SSMT, lot dan lain-lain) kira
 1. Tekan **Ctrl+M** untuk buka **Market Watch**. Klik kanan → **Symbols**.
 2. Cari dan tekan **Show Symbol** untuk:
    - `XAUUSD` dan `XAGUSD` (emas dan perak)
-   - `NDXUSD` (Nasdaq) dan indeks S&P 500 (cuba cari `SPX`, `US500`, `SP500`)
-3. **Catat nama tepat** simbol S&P 500. Jika bukan `SPXUSD`, buka `MQL5\Profiles\Tester\QT_NDXUSD.set` dengan Notepad dan tukar baris `InpPairSymbol=SPXUSD` kepada nama sebenar.
+   - `US100.s` (Nasdaq) dan indeks S&P 500 (cuba cari `SPX`, `US500`, `SP500`)
+3. **Catat nama tepat** simbol S&P 500. Jika bukan `US500.s`, buka `MQL5\Profiles\Tester\QT_US100.set` dengan Notepad dan tukar baris `InpPairSymbol=US500.s` kepada nama sebenar.
 4. **Semak masa server.** Market Watch menunjukkan jam server di bahagian atas. Bandingkan dengan waktu New York sekarang (Google: "time in New York").
    - Jika **server = NY + 7 jam**, tiada perubahan diperlukan.
    - Jika lain: beritahu Claude beza jamnya.
@@ -135,7 +135,7 @@ Tujuan: lihat dengan mata sendiri bahawa EA buat apa yang kita rancang.
    - **Profit Factor**
    - **Maximal Drawdown**
    - **Total Net Profit**
-4. Ulang untuk **NDXUSD** dengan preset `QT_NDXUSD.set`.
+4. Ulang untuk **US100.s** dengan preset `QT_US100.set`.
 5. Fail `QT_Report_XAUUSD.csv` (statistik per sesi) disimpan dalam folder Tester. Cara paling mudah mencarinya: Windows Explorer → cari `QT_Report` dalam folder `%APPDATA%\MetaQuotes`.
 
 ---
@@ -143,7 +143,7 @@ Tujuan: lihat dengan mata sendiri bahawa EA buat apa yang kita rancang.
 ## Bahagian I — Hantar keputusan kepada Claude
 
 Hantar:
-1. Screenshot tab **Backtest** (XAUUSD dan NDXUSD)
+1. Screenshot tab **Backtest** (XAUUSD dan US100.s)
 2. Isi fail `QT_Report_*.csv` atau jadual `=== QT REPORT ===` dari Journal
 3. Apa-apa error atau baris pelik dalam Journal
 

@@ -17,13 +17,13 @@ Jika ada `FAIL: ...`, salin baris itu dan hantar kepada Claude.
 
 ## 3. Sahkan broker (Versus Trade)
 - **Masa server:** Market Watch menunjukkan masa server. Pada waktu musim panas AS (Mac–Nov), server mestilah 7 jam di hadapan New York. Contohnya 09:30 NY = 16:30 server. Jika betul, kekalkan `InpTimeMode=TIME_NY_PLUS_7`. Jika tidak, guna `TIME_MANUAL_GMT` dan isi `InpServerGmtOffset`.
-- **Nama simbol:** pastikan `XAUUSD`, `XAGUSD`, `NDXUSD` dan pasangan indeks S&P 500 wujud. Kalau nama S&P 500 lain (contohnya `US500` atau `SPX500`), ubah `InpPairSymbol` dalam `presets/QT_NDXUSD.set`.
+- **Nama simbol:** pastikan `XAUUSD`, `XAGUSD`, `US100.s` dan pasangan indeks S&P 500 wujud. Kalau nama S&P 500 lain (contohnya `US500` atau `SPX500`), ubah `InpPairSymbol` dalam `presets/QT_US100.set`.
 
 ## 4. Tetapan Strategy Tester
 | Tetapan | Nilai |
 |---|---|
 | Expert | QuarterlyTheory\QT_EA |
-| Simbol | XAUUSD (kemudian NDXUSD) |
+| Simbol | XAUUSD (kemudian US100.s) |
 | Timeframe | M1 |
 | Tarikh | 2024.11.01 – 2026.11.01 |
 | Modelling | Every tick based on real ticks |

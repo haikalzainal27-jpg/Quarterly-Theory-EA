@@ -1,8 +1,8 @@
-; Quarterly Theory EA - XAUUSD (pasangan SSMT: XAGUSD)
+; Quarterly Theory EA - XAUUSD.s (pasangan SSMT: XAGUSD.s) - Versus Trade
 InpTimeMode=0
 InpServerGmtOffset=2
 InpModelLevel=0
-InpPairSymbol=XAGUSD
+InpPairSymbol=XAGUSD.s
 InpRiskUSD=10.0
 InpDailyLossUSD=30.0
 InpMaxTradesPerDay=3

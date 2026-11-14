@@ -23,7 +23,7 @@ input int          InpServerGmtOffset   = 2;                // Offset GMT server
 input QTModelLevel InpModelLevel        = MODEL_SESSION_90M;// Peringkat model
 
 input group "Simbol"
-input string       InpPairSymbol        = "XAGUSD";         // Simbol pasangan SSMT
+input string       InpPairSymbol        = "XAGUSD.s";         // Simbol pasangan SSMT
 
 input group "Risiko"
 input double       InpRiskUSD           = 10.0;             // Risiko setiap trade (USD)

@@ -13,7 +13,7 @@ Open + SSMT) menjadi peraturan mekanikal. Fasa pertama: **backtest** untuk
 membuktikan ada edge atau tidak. Live/prop firm hanya selepas backtest lulus.
 
 - Platform: **MT5 / MQL5**
-- Instrumen: **XAUUSD** dan **NDXUSD** (satu instance EA bagi setiap chart)
+- Instrumen: **XAUUSD.s** dan **US100.s** (satu instance EA bagi setiap chart)
 - Automasi: **auto penuh** (EA buka & tutup trade sendiri)
 
 ## 2. Masa (semua dalam waktu New York)
@@ -100,8 +100,8 @@ TP, lot, sebab skip jika dilangkau).
 
 | Simbol utama | Pasangan SSMT | Fail preset |
 |---|---|---|
-| XAUUSD | XAGUSD | `presets/QT_XAUUSD.set` |
-| NDXUSD | SPXUSD | `presets/QT_NDXUSD.set` |
+| XAUUSD.s | XAGUSD.s | `presets/QT_XAUUSD.set` |
+| US100.s | US500.s | `presets/QT_US100.set` |
 
 Broker: **Versus Trade**. Nama simbol ialah input (`InpPairSymbol`). Nama
 pasangan indeks perlu disahkan di Market Watch (lihat `docs/BACKTEST.md`).

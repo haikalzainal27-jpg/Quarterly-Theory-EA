@@ -1,8 +1,8 @@
-; Quarterly Theory EA - NDXUSD (pasangan SSMT: SPXUSD)
+; Quarterly Theory EA - US100.s (Nasdaq; pasangan SSMT: US500.s) - Versus Trade
 InpTimeMode=0
 InpServerGmtOffset=2
 InpModelLevel=0
-InpPairSymbol=SPXUSD
+InpPairSymbol=US500.s
 InpRiskUSD=10.0
 InpDailyLossUSD=30.0
 InpMaxTradesPerDay=3

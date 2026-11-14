@@ -1,6 +1,6 @@
 # Quarterly Theory EA (MT5)
 
-EA scalping MetaTrader 5 berasaskan Quarterly Theory: AMDX kitaran 90 minit, 3 True Open, SSMT dan MSS M1. RR 1:1, risiko $10 tetap. Simbol: XAUUSD dan NDXUSD.
+EA scalping MetaTrader 5 berasaskan Quarterly Theory: AMDX kitaran 90 minit, 3 True Open, SSMT dan MSS M1. RR 1:1, risiko $10 tetap. Simbol: XAUUSD dan US100.s.
 
 - Reka bentuk: `docs/superpowers/specs/2026-11-14-quarterly-theory-ea-design.md`
 - Pelan pelaksanaan: `docs/superpowers/plans/2026-11-14-quarterly-theory-ea.md`
@@ -21,6 +21,6 @@ Lihat `docs/BACKTEST.md` untuk cara pasang, jalankan ujian unit, dan backtest.
 - `MQL5/Experts/QuarterlyTheory/QT_EA.mq5` — EA
 - `MQL5/Include/QuarterlyTheory/*.mqh` — logik (masa NY, True Open, julat, SSMT, MSS, risiko, isyarat, laporan)
 - `MQL5/Scripts/QuarterlyTheory/QT_Tests.mq5` — ujian unit
-- `presets/` — tetapan input untuk XAUUSD dan NDXUSD
+- `presets/` — tetapan input untuk XAUUSD dan US100.s
 
 Status: v1 ditulis, menunggu compile & backtest dalam MT5.
