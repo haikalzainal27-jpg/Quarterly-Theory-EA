@@ -12,8 +12,11 @@ CTrade g_qtTrade;
 bool QT_Open(string sym, const QTSignal &s, double lot, long magic, string comment)
   {
    int digits = (int)SymbolInfoInteger(sym, SYMBOL_DIGITS);
-   double sl = NormalizeDouble(s.sl, digits);
-   double tp = NormalizeDouble(s.tp, digits);
+   double ts  = SymbolInfoDouble(sym, SYMBOL_TRADE_TICK_SIZE);
+   double sl = s.sl, tp = s.tp;
+   if(ts > 0) { sl = MathRound(sl/ts)*ts; tp = MathRound(tp/ts)*ts; }
+   sl = NormalizeDouble(sl, digits);
+   tp = NormalizeDouble(tp, digits);
    g_qtTrade.SetExpertMagicNumber(magic);
    bool ok = false;
    if(s.dir == DIR_BUY)  ok = g_qtTrade.Buy(lot, sym, 0.0, sl, tp, comment);
@@ -33,6 +36,19 @@ int QT_OpenPositions(string sym, long magic)
       if(PositionGetString(POSITION_SYMBOL) == sym && PositionGetInteger(POSITION_MAGIC) == magic) c++;
      }
    return c;
+  }
+
+void QT_CloseAll(string sym, long magic)
+  {
+   g_qtTrade.SetExpertMagicNumber(magic);
+   for(int i=PositionsTotal()-1; i>=0; i--)
+     {
+      ulong t = PositionGetTicket(i);
+      if(t == 0) continue;
+      if(PositionGetString(POSITION_SYMBOL) != sym || PositionGetInteger(POSITION_MAGIC) != magic) continue;
+      if(g_qtTrade.PositionClose(t))
+         PrintFormat("QT: forced close #%I64u before frame end", t);
+     }
   }
 
 // Close our positions opened before frameStartServer (i.e. in an earlier frame).

@@ -2,8 +2,6 @@
 //| QT_Tests.mq5 - unit tests for Quarterly Theory EA logic            |
 //| Run as a script; check the Experts log for "QT TESTS:" summary.    |
 //+------------------------------------------------------------------+
-#property script_show_inputs false
-
 #include <QuarterlyTheory/QT_TestLib.mqh>
 #include <QuarterlyTheory/QT_Types.mqh>
 #include <QuarterlyTheory/QT_Time.mqh>
@@ -65,6 +63,12 @@ void Test_Time()
    QT_AssertEqTime(D'2026.06.09 18:00', p.tradingDayStartNY, "pm day start");
    QT_AssertEqInt(QT_NYPM, p.session, "pm session");
 
+   // forced close: NY AM ends 12:00 -> 11:58; NY PM capped at 17:00 break -> 16:58
+   QTCyclePos fc = QT_GetCyclePos(D'2026.06.10 10:00', MODEL_SESSION_90M);
+   QT_AssertEqTime(D'2026.06.10 11:58', QT_ForceCloseTimeNY(fc, 2), "force close NY AM");
+   fc = QT_GetCyclePos(D'2026.06.10 15:00', MODEL_SESSION_90M);
+   QT_AssertEqTime(D'2026.06.10 16:58', QT_ForceCloseTimeNY(fc, 2), "force close NY PM before break");
+
    p = QT_GetCyclePos(D'2026.06.10 09:30', MODEL_CYCLE_MICRO);
    QT_AssertEqTime(D'2026.06.10 09:00', p.frameStartNY, "micro frameStart");
    QT_AssertEqInt(1, p.frameQuarter, "micro frameQuarter");
@@ -124,12 +128,17 @@ void Test_Ranges()
 void Test_SSMT()
   {
    QTRange mQ1 = MkRange(110, 100), pQ1 = MkRange(55, 50);
-   QT_AssertEqInt(DIR_BUY,  QT_DetectSSMT(mQ1, MkRange(108, 99),  pQ1, MkRange(54, 50.5)), "bull ssmt");
-   QT_AssertEqInt(DIR_SELL, QT_DetectSSMT(mQ1, MkRange(111, 102), pQ1, MkRange(55, 51)),   "bear ssmt");
-   QT_AssertEqInt(DIR_NONE, QT_DetectSSMT(mQ1, MkRange(108, 99),  pQ1, MkRange(54, 49)),   "both swept low");
-   QT_AssertEqInt(DIR_NONE, QT_DetectSSMT(mQ1, MkRange(111, 99),  pQ1, MkRange(54, 51)),   "main swept both");
+   QTRange a = MkRange(108, 99),  b = MkRange(54, 50.5);
+   QT_AssertEqInt(DIR_BUY,  QT_DetectSSMT(mQ1, a, pQ1, b), "bull ssmt");
+   a = MkRange(111, 102); b = MkRange(55, 51);
+   QT_AssertEqInt(DIR_SELL, QT_DetectSSMT(mQ1, a, pQ1, b), "bear ssmt");
+   a = MkRange(108, 99);  b = MkRange(54, 49);
+   QT_AssertEqInt(DIR_NONE, QT_DetectSSMT(mQ1, a, pQ1, b), "both swept low");
+   a = MkRange(111, 99);  b = MkRange(54, 51);
+   QT_AssertEqInt(DIR_NONE, QT_DetectSSMT(mQ1, a, pQ1, b), "main swept both");
    QTRange bad = MkRange(0,0); bad.valid = false;
-   QT_AssertEqInt(DIR_NONE, QT_DetectSSMT(mQ1, MkRange(108, 99),  pQ1, bad),               "invalid range");
+   a = MkRange(108, 99);
+   QT_AssertEqInt(DIR_NONE, QT_DetectSSMT(mQ1, a, pQ1, bad), "invalid range");
   }
 
 //--- Task 6: structure ---------------------------------------------
@@ -161,6 +170,9 @@ void Test_Structure()
 
    BuildMSSBars(r, 10, true, t0);
    QT_AssertTrue(!QT_DetectMSS(r, DIR_BUY, t0+360, lvl), "fractal before afterTime ignored");
+
+   BuildMSSBars(r, 10, true, t0);
+   QT_AssertTrue(!QT_DetectMSS(r, DIR_BUY, t0+300, lvl), "fractal on sweep bar ignored");
 
    BuildMSSBars(r, 10, false, t0);
    QT_AssertTrue(QT_IsFractalLow(r, 5), "fractal low");
@@ -250,13 +262,14 @@ void Test_Report()
    QT_AssertEqInt(QT_NYAM, QT_SessionFromComment("QT|NYAM|2"), "comment -> session");
    QT_AssertEqInt(-1, QT_SessionFromComment("manual"), "foreign comment");
 
-   int ss[5] = {2,2,2,1,1};
-   double pf[5] = {10,10,10,-10,-10};
+   int ss[6] = {2,2,2,1,1,0};
+   double pf[6] = {10,10,10,-10,-10,0};
    QTStats st[];
    QT_AggregateStats(ss, pf, st);
-   QT_AssertEqInt(5, st[4].trades, "total trades");
+   QT_AssertEqInt(6, st[4].trades, "total trades");
+   QT_AssertEqInt(0, st[QT_ASIA].wins + st[QT_ASIA].losses, "breakeven is neither");
    QT_AssertEqDbl(10, st[4].net, 1e-9, "total net");
-   QT_AssertEqDbl(60.0, QT_WinRate(st[4]), 1e-9, "total winrate");
+   QT_AssertEqDbl(50.0, QT_WinRate(st[4]), 1e-9, "total winrate (3 of 6)");
    QT_AssertEqInt(3, st[QT_NYAM].wins, "nyam wins");
    QT_AssertEqInt(2, st[QT_LONDON].losses, "london losses");
   }

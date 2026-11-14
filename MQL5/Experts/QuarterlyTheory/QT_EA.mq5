@@ -48,6 +48,8 @@ input bool         InpTradeNYPM         = true;
 
 input group "Lain-lain"
 input long         InpMagic             = 20261114;
+input int          InpCloseBufferMin    = 2;                // Tutup paksa N minit sebelum akhir Q4 / 17:00 NY
+input int          InpDeviationPoints   = 20;               // Slippage maksimum
 
 datetime g_lastBar     = 0;
 datetime g_startServer = 0;
@@ -88,6 +90,8 @@ int OnInit()
       Print("QT: amaran - mata wang akaun bukan USD, risiko dikira dalam mata wang akaun");
    g_startServer = TimeCurrent();
    g_qtTrade.SetExpertMagicNumber(InpMagic);
+   g_qtTrade.SetTypeFillingBySymbol(_Symbol);
+   g_qtTrade.SetDeviationInPoints(InpDeviationPoints);
    return INIT_SUCCEEDED;
   }
 
@@ -106,8 +110,14 @@ void OnTick()
    QTCyclePos p     = QT_GetCyclePos(nyNow, InpModelLevel);
    datetime   frameStartS = NY2S(p.frameStartNY);
 
-   // Forced close: anything opened in an earlier frame (end of Q4).
+   // Forced close: before end of Q4 (or 17:00 NY daily break), and anything
+   // left over from an earlier frame.
    QT_CloseOlderThan(_Symbol, InpMagic, frameStartS);
+   if(nyNow >= QT_ForceCloseTimeNY(p, InpCloseBufferMin))
+     {
+      QT_CloseAll(_Symbol, InpMagic);
+      return;
+     }
 
    if(p.frameQuarter != 2) return;                 // entries only in Q3
    if(!SessionEnabled(p.session)) return;
@@ -128,7 +138,7 @@ void OnTick()
    datetime q3S  = NY2S(p.frameStartNY + 2*q);
    MqlRates mainM1[], pairM1[];
    if(!QT_LoadM1(_Symbol, frameStartS, barTime - 1, mainM1)) return;
-   if(!QT_LoadM1(InpPairSymbol, frameStartS, barTime - 1, pairM1)) return;
+   if(InpUseSSMT && !QT_LoadM1(InpPairSymbol, frameStartS, barTime - 1, pairM1)) return;
 
    QTSignalInput in;
    ZeroMemory(in);

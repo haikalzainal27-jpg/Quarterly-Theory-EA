@@ -36,7 +36,7 @@ bool QT_DetectMSS(const MqlRates &r[], QTDir dir, datetime afterTime, double &br
    int f = -1;
    for(int i=last-3; i>=2; i--)
      {
-      if(r[i].time < afterTime) break;
+      if(r[i].time <= afterTime) break; // fractal must form AFTER the sweep bar
       bool isF = (dir == DIR_BUY) ? QT_IsFractalHigh(r, i) : QT_IsFractalLow(r, i);
       if(isF) { f = i; break; }
      }

@@ -31,7 +31,7 @@ void QT_AggregateStats(const int &sessions[], const double &profits[], QTStats &
   {
    ArrayResize(stats, 5);
    for(int k=0; k<5; k++) { stats[k].trades=0; stats[k].wins=0; stats[k].losses=0; stats[k].net=0; }
-   int n = MathMin(ArraySize(sessions), ArraySize(profits));
+   int n = (int)MathMin(ArraySize(sessions), ArraySize(profits));
    for(int i=0; i<n; i++)
      {
       int s = sessions[i];
@@ -41,8 +41,8 @@ void QT_AggregateStats(const int &sessions[], const double &profits[], QTStats &
         {
          stats[idx[j]].trades++;
          stats[idx[j]].net += profits[i];
-         if(profits[i] > 0) stats[idx[j]].wins++;
-         else               stats[idx[j]].losses++;
+         if(profits[i] > 0)      stats[idx[j]].wins++;
+         else if(profits[i] < 0) stats[idx[j]].losses++; // 0 = breakeven, neither
         }
      }
   }

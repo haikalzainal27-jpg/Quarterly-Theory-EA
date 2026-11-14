@@ -64,7 +64,7 @@ Rangka: sesi 6 jam dibahagi kepada empat kuarter 90 minit (AMDX).
    - Jika harga tembus `SweepExtreme` sebelum entry → setup batal.
 5. **SL** = `SweepExtreme` ∓ buffer (`InpSLBufferPoints`, default 0 = guna spread semasa).
 6. **TP** = RR **1:1** (jarak TP = jarak SL). Tiada breakeven, tiada trailing.
-7. **Tutup paksa** — mana-mana posisi yang masih terbuka ditutup pada akhir Q4 (akhir sesi).
+7. **Tutup paksa** — mana-mana posisi yang masih terbuka ditutup `InpCloseBufferMin` (default 2) minit sebelum akhir Q4, dan tidak lewat daripada 16:58 NY (rehat harian 17:00 NY), supaya tiada posisi dibawa merentas rehat harian atau hujung minggu.
 
 Setiap syarat (SSMT, penapis TO, MSS) mempunyai suis on/off untuk ujian kesan.
 
@@ -124,4 +124,5 @@ pasangan indeks perlu disahkan di Market Watch (lihat `docs/BACKTEST.md`).
 
 1. ~~Peringkat model~~ — **Diputuskan:** default peringkat sesi/90-min; `InpModelLevel=MODEL_CYCLE_MICRO` tersedia untuk ujian scalping lebih kerap.
 2. ~~Broker~~ — **Diputuskan:** Versus Trade. Mod masa default `TIME_NY_PLUS_7`; perlu disahkan di terminal (`docs/BACKTEST.md` §3).
-3. **Had rugi harian** dikira bagi setiap instance (simbol). Jika mahu had untuk seluruh akaun, ia perlu diubah.
+3. **Peringkat micro:** sempadan kuarter 22.5 minit (contoh :22:30) jatuh di tengah bar M1; bar itu dikira dalam kuarter tempat ia dibuka. Diterima untuk v1.
+4. **Had rugi harian** dikira bagi setiap instance (simbol). Jika mahu had untuk seluruh akaun, ia perlu diubah.

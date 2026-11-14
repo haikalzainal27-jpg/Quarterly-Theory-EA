@@ -22,7 +22,7 @@ void QT_TrueOpenTimesNY(const QTCyclePos &p, datetime &dailyTO, datetime &sessio
 int QT_TrueOpenVotes(QTDir dir, double price, const double &toPrices[], const bool &toFormed[])
   {
    int votes = 0;
-   int n = MathMin(ArraySize(toPrices), ArraySize(toFormed));
+   int n = (int)MathMin(ArraySize(toPrices), ArraySize(toFormed));
    for(int i=0; i<n; i++)
      {
       if(!toFormed[i] || toPrices[i] <= 0.0) continue;
