@@ -25,3 +25,12 @@ Logik EA disahkan (baris `detail` disemak manual: masa NY, SSMT, True Open betul
 |---|---|---|---|
 | 1 | QT_XAUUSD.set | InpTradeLondon=false | London ialah sesi lemah |
 | 2 | QT_US100.set | — | model berfungsi di pasaran lain |
+
+## Keputusan ujian data pembangunan (2025)
+
+| # | Ujian | Trade | TP / SL / masa | Bersih | PF | Keputusan |
+|---|---|---|---|---|---|---|
+| 1 | XAUUSD.s, London off | 28 | 6 / 15 / 7 | −$3.36 | 0.97 | **Gagal** — hipotesis London tidak menghasilkan edge; kadar TP 29% < 33% |
+| 2 | US100.s | 0 | — | $0 | — | **Tidak sah** — 0 trade; punca perlu disiasat (log Agent) |
+
+Ujian 1 ikut sesi: NY AM 11 trade (3 TP / 8 SL) −$18.47; NY PM 15 trade (2 TP / 6 SL / 7 masa) +$6.34 (untung datang dari tutup ikut masa, bukan TP); Asia 2 trade +$8.77.
