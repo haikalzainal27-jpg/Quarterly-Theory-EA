@@ -49,3 +49,13 @@ Ujian 1 ikut sesi: NY AM 11 trade (3 TP / 8 SL) −$18.47; NY PM 15 trade (2 TP 
 Ikut sesi: NY AM 8 TP / 26 SL (−$90); London 21 / 20 (+$5); Asia 12 / 12 (−$3); NY PM −$12.
 Ikut arah: buy +$21.80, sell −$122.15 (emas dalam uptrend kuat Jan 2025; sell melawan trend rugi).
 Kadar TP 41% vs ~53% diperlukan untuk RR 1:1.
+
+### QT + BB, XAUUSD.s M5, deposit $1,000, risiko $5 (1:1) — 2025 penuh
+| Trade | TP / SL / masa | Bersih | PF | Drawdown maks |
+|---|---|---|---|---|
+| 1210 | 604 / 596 / 10 | +$47.69 | 1.02 | $150 (14.9%) |
+
+Kadar TP 50.3% (ralat piawai ±1.4%) — tidak dapat dibezakan daripada lambungan syiling.
+Buy: +$189 (53% TP); sell: −$141 (48% TP). Emas naik dari ~2650 ke ~4500 pada 2025, jadi kelebihan buy ialah trend pasaran, bukan strategi.
+Ikut sesi: London +$140, Asia −$25, NY AM −$80, NY PM +$13. 7 bulan untung, 5 bulan rugi.
+Drawdown $150 melebihi akaun $100 — sebab itu ujian $100 habis dalam sebulan.
