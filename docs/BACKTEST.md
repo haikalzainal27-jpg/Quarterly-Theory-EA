@@ -49,3 +49,8 @@ Ujian visual ringkas dulu (1 minggu, contohnya 2026.06.08–2026.06.13, *Visual 
 
 ## 7. Ujian komponen
 Ulang backtest dengan setiap suis ini dimatikan satu demi satu: `InpUseSSMT`, `InpUseTO`, `InpUseMSS`. Rekod perbandingan dalam `docs/results/SUMMARY.md`. Selepas itu cuba juga `InpModelLevel=MODEL_CYCLE_MICRO` untuk scalping yang lebih kerap.
+
+## 8. Nota data Versus Trade
+- Data **tick sebenar** XAUUSD.s hanya bermula **2026.09.30**. Untuk tempoh ini guna *Every tick based on real ticks*.
+- Data **bar M1** bermula **2024.01.23** (dalam tester: 2025.01.02). Untuk ujian panjang guna *1 minute OHLC*, tempoh **2025.01.02 – 2026.11.13**. Ketepatan lebih rendah kerana tick dijana dari bar; SL dan TP dalam bar yang sama mungkin tidak tepat.
+- `presets/QT_XAUUSD_MICRO.set` = model micro (`InpModelLevel=1`, kuarter 22.5 minit) untuk lebih banyak setup.

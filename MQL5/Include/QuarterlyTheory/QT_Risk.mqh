@@ -6,17 +6,26 @@
 
 #include "QT_Types.mqh"
 
-// Lot so that hitting SL loses riskUSD. Rounded DOWN to volStep.
-// Returns 0 when below volMin (never rounds up -> never risks more than riskUSD).
+// Lot so that hitting SL loses riskUSD.
+// roundUp=false: rounded DOWN to volStep, 0 when below volMin (never risks more than riskUSD).
+// roundUp=true : rounded UP to volStep (at least volMin), but only if the resulting
+//                risk stays <= maxRiskMult * riskUSD; otherwise falls back to rounding down.
 double QT_CalcLot(double riskUSD, double slDistPrice, double tickValue, double tickSize,
-                  double volMin, double volStep)
+                  double volMin, double volStep, bool roundUp=false, double maxRiskMult=1.5)
   {
    if(riskUSD <= 0 || slDistPrice <= 0 || tickValue <= 0 || tickSize <= 0 || volStep <= 0)
       return 0.0;
    double lossPerLot = slDistPrice / tickSize * tickValue;
    double raw  = riskUSD / lossPerLot;
-   double lots = MathFloor(raw / volStep + 1e-9) * volStep;
    int digits  = (int)MathMax(0, MathCeil(-MathLog10(volStep) - 1e-9));
+   if(roundUp)
+     {
+      double up = MathCeil(raw / volStep - 1e-9) * volStep;
+      if(up < volMin) up = volMin;
+      up = NormalizeDouble(up, digits);
+      if(up * lossPerLot <= maxRiskMult * riskUSD + 1e-9) return up;
+     }
+   double lots = MathFloor(raw / volStep + 1e-9) * volStep;
    lots = NormalizeDouble(lots, digits);
    if(lots < volMin - 1e-12) return 0.0;
    return lots;

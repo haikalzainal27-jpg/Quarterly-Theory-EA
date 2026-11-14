@@ -69,7 +69,7 @@ Ujian ini memastikan logik EA (masa NY, True Open, SSMT, lot dan lain-lain) kira
 4. Tekan **Ctrl+T** untuk buka **Toolbox** di bawah, dan pilih tab **Experts**.
 5. Cari baris:
    ```
-   QT TESTS: 88 passed, 0 failed
+   QT TESTS: 93 passed, 0 failed
    ```
    (Nombor "passed" mungkin berbeza. Yang penting **0 failed**.)
 

@@ -1,0 +1,22 @@
+; Quarterly Theory EA (MICRO model 22.5-min quarters) - XAUUSD.s (pasangan SSMT: XAGUSD.s) - Versus Trade
+InpTimeMode=0
+InpServerGmtOffset=2
+InpModelLevel=1
+InpPairSymbol=XAGUSD.s
+InpRiskUSD=10.0
+InpDailyLossUSD=30.0
+InpMaxTradesPerDay=3
+InpMaxTradesPerCycle=1
+InpMaxSpreadPoints=50
+InpMinSLSpreadMult=3.0
+InpMaxLot=5.0
+InpSLBufferPoints=0
+InpRoundLotUp=false
+InpUseSSMT=true
+InpUseTO=true
+InpUseMSS=true
+InpTradeAsia=true
+InpTradeLondon=true
+InpTradeNYAM=true
+InpTradeNYPM=true
+InpMagic=20261114

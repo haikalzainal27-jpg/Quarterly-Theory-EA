@@ -34,6 +34,7 @@ input double       InpMaxSpreadPoints   = 50;
 input double       InpMinSLSpreadMult   = 3.0;
 input double       InpMaxLot            = 5.0;
 input double       InpSLBufferPoints    = 0;                // 0 = guna spread semasa
+input bool         InpRoundLotUp        = false;            // Bundar lot ke atas (risiko maks 1.5x)
 
 input group "Komponen model"
 input bool         InpUseSSMT           = true;
@@ -196,7 +197,8 @@ void OnTick()
                              SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE),
                              SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE),
                              SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN),
-                             SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP));
+                             SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP),
+                             InpRoundLotUp, 1.5);
    QTSkip f = QT_CheckScalpFilters(dist / _Point, spreadPrice / _Point, lot,
                                    InpMinSLSpreadMult, InpMaxSpreadPoints, InpMaxLot);
    if(f != SKIP_NONE) { LogOnce(p, "skip " + QT_SkipName(f)); return; }
@@ -205,8 +207,10 @@ void OnTick()
    if(stopsLevel > 0 && dist / _Point < stopsLevel) { LogOnce(p, "skip STOPS_LEVEL"); return; }
 
    string comment = StringFormat("QT|%s|%d", QT_SessionName(p.session), p.cycle90Idx);
+   double riskUSD = dist / SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE)
+                  * SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE) * lot;
    if(QT_Open(_Symbol, s, lot, InpMagic, comment))
-      PrintFormat("QT %s %s %s lot=%.2f entry=%.5f sl=%.5f tp=%.5f",
+      PrintFormat("QT %s %s %s lot=%.2f entry=%.5f sl=%.5f tp=%.5f risk=$%.2f",
                   _Symbol, QT_SessionName(p.session), (s.dir == DIR_BUY ? "BUY" : "SELL"),
-                  lot, s.entry, s.sl, s.tp);
+                  lot, s.entry, s.sl, s.tp, riskUSD);
   }

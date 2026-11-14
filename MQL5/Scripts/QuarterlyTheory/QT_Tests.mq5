@@ -185,6 +185,13 @@ void Test_Risk()
   {
    QT_AssertEqDbl(0.05, QT_CalcLot(10, 2.00, 1.0, 0.01, 0.01, 0.01), 1e-9, "xau lot");
    QT_AssertEqDbl(0.05, QT_CalcLot(10, 1.67, 1.0, 0.01, 0.01, 0.01), 1e-9, "round down");
+   // round up: SL 5.34 on gold -> raw 0.0187 -> 0.02 (risk 10.68 <= 15)
+   QT_AssertEqDbl(0.01, QT_CalcLot(10, 5.34, 1.0, 0.01, 0.01, 0.01), 1e-9, "gold round down 0.01");
+   QT_AssertEqDbl(0.02, QT_CalcLot(10, 5.34, 1.0, 0.01, 0.01, 0.01, true), 1e-9, "gold round up 0.02");
+   // round up would risk 0.1*150=15 <= 15 -> allowed; SL 200 -> 0.1*200=20 > 15 -> fallback 0
+   QT_AssertEqDbl(0.1, QT_CalcLot(10, 150.0, 0.01, 0.01, 0.1, 0.1, true), 1e-9, "ndx round up to min");
+   QT_AssertEqDbl(0.0, QT_CalcLot(10, 200.0, 0.01, 0.01, 0.1, 0.1, true), 1e-12, "round up capped at 1.5x");
+   QT_AssertEqDbl(0.05, QT_CalcLot(10, 2.00, 1.0, 0.01, 0.01, 0.01, true), 1e-9, "exact lot unchanged when rounding up");
    double ndx = QT_CalcLot(10, 150.0, 0.01, 0.01, 0.1, 0.1);
    QT_AssertEqDbl(0.0, ndx, 1e-12, "ndx lot below min -> 0");
    QT_AssertEqInt(SKIP_LOT_MIN, QT_CheckScalpFilters(15000, 100, ndx, 3, 200, 5), "lot min skip");

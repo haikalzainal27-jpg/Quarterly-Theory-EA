@@ -11,6 +11,7 @@ InpMaxSpreadPoints=200
 InpMinSLSpreadMult=3.0
 InpMaxLot=5.0
 InpSLBufferPoints=0
+InpRoundLotUp=false
 InpUseSSMT=true
 InpUseTO=true
 InpUseMSS=true
