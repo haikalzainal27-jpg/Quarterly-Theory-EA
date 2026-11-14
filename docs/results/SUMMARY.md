@@ -40,3 +40,12 @@ Ujian 1 ikut sesi: NY AM 11 trade (3 TP / 8 SL) −$18.47; NY PM 15 trade (2 TP 
 - Penapis Quarterly Theory: buy hanya di bawah ≥ 2 True Open, sell hanya di atas ≥ 2 True Open.
 - Lot tetap 0.01, SL = $5.00 dari entry, TP = $5.00 (1:1). Maks 1 trade setiap kitaran 90 minit, 5 sehari, had rugi harian $15.
 - Preset: `presets/QT_BB_XAUUSD_100.set`. Protokol sama: bangunkan atas 2025, 2026 sebagai ujian akhir.
+
+### QT + BB, XAUUSD.s M5, deposit $100, risiko $5 (1:1) — 2025
+| Trade | TP / SL / masa | Bersih | PF | Nota |
+|---|---|---|---|---|
+| 104 | 41 / 60 / 3 | −$100.35 | 0.67 | **Akaun habis pada 2025.02.03** — hanya ~1 bulan diuji |
+
+Ikut sesi: NY AM 8 TP / 26 SL (−$90); London 21 / 20 (+$5); Asia 12 / 12 (−$3); NY PM −$12.
+Ikut arah: buy +$21.80, sell −$122.15 (emas dalam uptrend kuat Jan 2025; sell melawan trend rugi).
+Kadar TP 41% vs ~53% diperlukan untuk RR 1:1.
