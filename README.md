@@ -12,4 +12,13 @@ EA scalping MetaTrader 5 berasaskan Quarterly Theory: AMDX kitaran 90 minit, 3 T
 
 Kedua-duanya berlesen MIT; lihat `third_party/`.
 
-Status: perancangan siap, pelaksanaan belum bermula.
+## Mula
+Lihat `docs/BACKTEST.md` untuk cara pasang, jalankan ujian unit, dan backtest.
+
+## Struktur
+- `MQL5/Experts/QuarterlyTheory/QT_EA.mq5` — EA
+- `MQL5/Include/QuarterlyTheory/*.mqh` — logik (masa NY, True Open, julat, SSMT, MSS, risiko, isyarat, laporan)
+- `MQL5/Scripts/QuarterlyTheory/QT_Tests.mq5` — ujian unit
+- `presets/` — tetapan input untuk XAUUSD dan NDXUSD
+
+Status: v1 ditulis, menunggu compile & backtest dalam MT5.

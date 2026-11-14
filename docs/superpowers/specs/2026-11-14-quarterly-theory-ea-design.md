@@ -1,6 +1,6 @@
 # Quarterly Theory EA — Dokumen Reka Bentuk
 
-Tarikh: 2026-11-14 · Status: **Menunggu kelulusan**
+Tarikh: 2026-11-14 · Status: **Diluluskan**
 
 Dokumen ini merekod semua keputusan dari sesi interview (grill-me, 3 pusingan).
 Setiap peraturan di bawah ialah keputusan yang telah dipersetujui; perkara yang
@@ -103,8 +103,8 @@ TP, lot, sebab skip jika dilangkau).
 | XAUUSD | XAGUSD | `presets/QT_XAUUSD.set` |
 | NDXUSD | SPXUSD | `presets/QT_NDXUSD.set` |
 
-Nama simbol ialah input (`InpPairSymbol`); broker belum ditentukan, jadi
-nama pasangan perlu disahkan di Market Watch broker anda.
+Broker: **Versus Trade**. Nama simbol ialah input (`InpPairSymbol`). Nama
+pasangan indeks perlu disahkan di Market Watch (lihat `docs/BACKTEST.md`).
 
 ## 8. Backtest
 
@@ -120,12 +120,8 @@ nama pasangan perlu disahkan di Market Watch broker anda.
 - Model fractal micro (lihat Keputusan Terbuka #1)
 - Live trading / peraturan prop firm
 
-## 10. Keputusan Terbuka
+## 10. Keputusan (dahulu terbuka)
 
-1. **Peringkat model untuk scalping.** Model di atas guna Q1–Q4 = kuarter 90 minit
-   dalam sesi 6 jam (≈1 trade setiap sesi). Untuk scalping yang lebih kerap,
-   model yang sama boleh dijalankan satu peringkat ke bawah: Q1–Q4 = micro 22.5
-   minit dalam setiap kitaran 90 minit. **Default dalam pelan: peringkat sesi/90-min**,
-   dengan input `InpModelLevel` supaya peringkat micro boleh diuji kemudian.
-2. **Broker.** Nama simbol dan mod masa (NY+7 atau GMT manual) bergantung kepada broker.
+1. ~~Peringkat model~~ — **Diputuskan:** default peringkat sesi/90-min; `InpModelLevel=MODEL_CYCLE_MICRO` tersedia untuk ujian scalping lebih kerap.
+2. ~~Broker~~ — **Diputuskan:** Versus Trade. Mod masa default `TIME_NY_PLUS_7`; perlu disahkan di terminal (`docs/BACKTEST.md` §3).
 3. **Had rugi harian** dikira bagi setiap instance (simbol). Jika mahu had untuk seluruh akaun, ia perlu diubah.

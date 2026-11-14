@@ -1,0 +1,21 @@
+; Quarterly Theory EA - NDXUSD (pasangan SSMT: SPXUSD)
+InpTimeMode=0
+InpServerGmtOffset=2
+InpModelLevel=0
+InpPairSymbol=SPXUSD
+InpRiskUSD=10.0
+InpDailyLossUSD=30.0
+InpMaxTradesPerDay=3
+InpMaxTradesPerCycle=1
+InpMaxSpreadPoints=200
+InpMinSLSpreadMult=3.0
+InpMaxLot=5.0
+InpSLBufferPoints=0
+InpUseSSMT=true
+InpUseTO=true
+InpUseMSS=true
+InpTradeAsia=true
+InpTradeLondon=true
+InpTradeNYAM=true
+InpTradeNYPM=true
+InpMagic=20261115
