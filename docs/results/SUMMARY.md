@@ -59,3 +59,16 @@ Kadar TP 50.3% (ralat piawai ±1.4%) — tidak dapat dibezakan daripada lambunga
 Buy: +$189 (53% TP); sell: −$141 (48% TP). Emas naik dari ~2650 ke ~4500 pada 2025, jadi kelebihan buy ialah trend pasaran, bukan strategi.
 Ikut sesi: London +$140, Asia −$25, NY AM −$80, NY PM +$13. 7 bulan untung, 5 bulan rugi.
 Drawdown $150 melebihi akaun $100 — sebab itu ujian $100 habis dalam sebulan.
+
+### QT + BB — UJIAN AKHIR 2026 (2026.01.01 – 2026.11.13), tiada perubahan setting
+| Trade | TP / SL | Bersih | PF | Drawdown maks |
+|---|---|---|---|---|
+| 1044 | 506 / 538 | −$160.00 | 0.94 | $295 (27.3%) |
+
+Kadar TP 48.5%. 3 bulan untung, 8 bulan rugi. London, sesi terbaik 2025 (+$140), jadi sesi terburuk 2026 (−$140). Buy −$110, sell −$50.
+
+**Keputusan: strategi QT + BB DITUTUP.** Tiada edge; hasil 2025 (+$47) ialah kebetulan/trend emas.
+
+## Status projek (2026-11-15)
+- Tiada strategi yang diuji menunjukkan edge. Tiada EA yang disyorkan untuk akaun live.
+- Langkah seterusnya: trade manual di akaun demo, ≥ 30 trade, guna `docs/JURNAL-MANUAL.md`; kemudian kodkan peraturan yang terbukti.
